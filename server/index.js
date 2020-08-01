@@ -16,8 +16,10 @@ app.post('/repos', (req, res) => {
       res.status(500).send(err);
     } else {
       // save the repo information in the database
-      console.log("server: fetching github api success")
-      db.insert(err, req.body)
+      // console.log("server: fetching github api success!", req.body)
+      // console.log("res from github??", githubResult)
+      // db.save(err, req.body)
+      // db.insert(err, req.body)
       res.status(201).send(req.body)
     }
   })

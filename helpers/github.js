@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('../config.js');
+const db = require('../database')
 
 let getReposByUsername = (userName, callback) => {
   // The options object has been provided to help you out,
@@ -11,17 +12,18 @@ let getReposByUsername = (userName, callback) => {
       'Authorization': `token ${config.TOKEN}`
     }
   };
-
   // TODO - Use the axios module to request repos for a specific
-  // user from the github API
-  axios.get(options.url, options)
+  // user from the github API:   GET /users/username
+  axios.get(options.url + '/users/' + userName, options)
   .then((res) => {
+    // this response has all the user data that we want to display for top 10!
     console.log("github: got a response back:)", res.data)
+    db.save(err, res.data)
     callback(null, res);
   })
   .catch((err) => {
     console.log(err, "github: failed to query api")
-    callback(err, null)
+    callback(err, null);
   })
 }
 

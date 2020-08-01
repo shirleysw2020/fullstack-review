@@ -39,15 +39,16 @@ let find = (err, existingDoc) => {
   })
 }
 
-let insert = (err, newDoc) => {
-  Repo.insert(newDoc);
-  if (err) {console.error(err, "failed to insert new doc T T")}
-  console.log("success inserting new doc!")
-}
+// let insert = (err, newDoc) => {
+//   // var currentDoc = new Repo(newDoc);
+//   Repo.insert((err, newDoc) => {
+//     if (err) {console.error(err, "failed to insert new doc T T")}
+//     console.log("success inserting new doc!")
+//   });
+// }
 // db.collections.update({}, {}, {upsert: true})
 module.exports.save = save;
 // repo1 is a new instance of our schema
 // const repo1 = new Repo({ name: 'junlinsw' });
 // console.log(repo1.name); // 'junlinsw'
 module.exports.find = find;
-module.exports.insert = insert;
