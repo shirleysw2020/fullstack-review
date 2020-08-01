@@ -19,9 +19,9 @@ class App extends React.Component {
     // make get request.
     axios.get('/repos')
     .then((res) => {
-      console.log("client: success getting repos!", res);
+      console.log("client: success getting repos!", res.full_name);
       // ststate likely has error... fix later
-      this.setState({repos: [...this.state.repos, res]});
+      this.setState({repos: [...this.state.repos, res.full_name]});
     }).catch((err) => {
       console.log("client: failed to get repos", err)
     })
