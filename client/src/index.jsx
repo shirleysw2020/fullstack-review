@@ -12,14 +12,26 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-    console.log("whats apps this binding to?", this)
+    // console.log("whats apps this binding to?", this)
     this.search = this.search.bind(this);
   }
+  componenDidMount() {
+    // make get request.
+    axios.get('/repos')
+    .then((res) => {
+      console.log("client: success getting repos!", res);
+      // ststate likely has error... fix later
+      this.setState({repos: [...this.state.repos, res]});
+    }).catch((err) => {
+      console.log("client: failed to get repos", err)
+    })
+    // setstate to have all repos from db/ resposne fo teh get request
+  }
+
   search (term) {
-    console.log(`${term} was searched`);
-    // TODO: make post request to server
-    axios.post('/repos', term)
-    .then((res) => console.log(res, "got a response from server!"))
+    // console.log(`${term} was searched`);
+    axios.post('/repos', {name:term})
+    .then((res) => console.log("client: got a response from server!", res.data))
     .catch(() => console.log("failed to make post T T"));
   }
   render () {

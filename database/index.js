@@ -7,9 +7,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("admin: database connected!");
 })
-// create a database;
+// create a database; TODO: your schema here!
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
   id: String,
   name: String,
   url: String,  //repos url
@@ -18,30 +17,37 @@ let repoSchema = mongoose.Schema({
   open_issues: Number,
   watchers: Number
 });
-// compiling our schema into a Model - a class in which we construct documents, each documnent will be a Repo!
+// compiling schema into Model - a class in which we construct documents, // each documnent will be an instance Repo!
 let Repo = mongoose.model('Repo', repoSchema);
 
-// repo1 is a new instance of our schema
-// const repo1 = new Repo({ name: 'junlinsw' });
-// console.log(repo1.name); // 'junlinsw'
-
-// second argument shoud be a new instance of Repo?
 // we will call model.save to save a new repo
-let save = (err, newRepo/* TODO */) => {
-  // TODO: Your code here
+let save = (err, newDoc/* TODO */) => {
   // This function should save repo/repos to MongoDB
-  Repo.save((err, newRepo) => {
-    if (err) return console.error(err);
-    console.log('success saving repo!');
+  // var currentRepo = new Repo({newRepoKey: newRepoValues});
+  var currentDoc = new Repo(newDoc);
+  console.log(currentDoc, 'new repo confirmed: its input search term:D')
+  currentDoc.save((err, currentDoc) => {
+    if (err) return console.error(err, 'failed to save new doc :(');
+    console.log('success saving repo!', currentDoc);
   });
 }
 // find a existing repo
-let find = (err, existingRepo) => {
-  Repo.find((err, existingRepo) => {
-    if (err) return console.error(err, "failed to save repo T T");
-    console.log(existingRepo);
+let find = (err, existingDoc) => {
+  Repo.find((err, existingDoc) => {
+    if (err) {console.error(err, "failed to save new doc T T")};
+    console.log(existingDoc);
   })
 }
 
+let insert = (err, newDoc) => {
+  Repo.insert(newDoc);
+  if (err) {console.error(err, "failed to insert new doc T T")}
+  console.log("success inserting new doc!")
+}
+// db.collections.update({}, {}, {upsert: true})
 module.exports.save = save;
+// repo1 is a new instance of our schema
+// const repo1 = new Repo({ name: 'junlinsw' });
+// console.log(repo1.name); // 'junlinsw'
 module.exports.find = find;
+module.exports.insert = insert;

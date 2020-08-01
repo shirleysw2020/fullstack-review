@@ -11,11 +11,11 @@ class Search extends React.Component {
   }
 
   onChange(e) {
-    console.log('whats props?', this.props)
+    // console.log('whats props?', this.props)
     this.setState({
       term: e.target.value
     });
-    console.log("whats terms?", this.state.term)
+    // console.log("whats terms?", this.state.term)
   }
 
   search() {
