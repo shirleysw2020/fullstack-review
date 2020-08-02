@@ -17,11 +17,11 @@ let getReposByUsername = (userName, callback) => {
   .then((res) => {
     // this response has all the user data that we want to display for top 10!
     // console.log("github: got a response back:)", res.data)
-    callback(null, res.data);
+    callback(null, res.data, userName);
   })
   .catch((err) => {
     console.log(err, "github: failed to query api")
-    callback(err, null);
+    callback(err, null, null);
   })
 }
 

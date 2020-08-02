@@ -6,6 +6,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log("admin: database connected!"));
 
 let repoSchema = mongoose.Schema({
+  username: String,
   full_name: String,
   avatar_url: String,
   watchers: Number,

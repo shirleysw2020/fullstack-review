@@ -19,9 +19,11 @@ class App extends React.Component {
   sorting(data) {
     var sorted = data.sort((a, b) => {return b.watchers - a.watchers});
     for (var i = 0; i < sorted.length - sorted.length + 20; i++) {
+      console.log('setting state');
       this.setState({repos: [...this.state.repos, sorted[i]]});
     }
   }
+
   componentDidMount() {
     axios.get('/repos')
     .then((res) => {

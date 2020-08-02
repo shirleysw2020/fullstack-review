@@ -10,7 +10,7 @@ app.use(express.json());
 app.post('/repos', (req, res) => {
   // This route should take the github username provided (in req)
   // and get the repo information from the github API, then
-  github.getReposByUsername(req.body.name, (err, repoInfo) => {
+  github.getReposByUsername(req.body.name, (err, repoInfo, requestedUsername) => {
     if (err) {
       console.log(err, "server: fetching github api failed")
       res.status(500).send(err);
@@ -19,7 +19,7 @@ app.post('/repos', (req, res) => {
     // console.log("res from github??", repoInfo)
     for (var repo of repoInfo) {
       var currentRepo = {
-        username: req.body.name,
+        username: requestedUsername,
         full_name: repo.full_name,
         avatar_url: repo.owner.avatar_url,
         watchers: repo.watchers,
