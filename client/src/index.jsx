@@ -22,9 +22,8 @@ class App extends React.Component {
       var sortedData = res.data.sort(function (a, b) {
         return b.watchers - a.watchers;
       });
-      var topTen = sortedData.length - sortedData.length + 10;
       console.log('sorteddata:', sortedData)
-      for (var i = 0; i < sortedData.length - sortedData.length + 10; i++) {
+      for (var i = 0; i < sortedData.length - sortedData.length + 15; i++) {
         this.setState({repos: [...this.state.repos, sortedData[i]]});
       }
     })
@@ -57,8 +56,8 @@ class App extends React.Component {
   render () {
     return (<div>
       <h2 style={{fontFamily:'Arial'}}>Github Fetcher</h2>
-      <RepoList repos={this.state.repos} key={this.state.repos._id}/>
       <Search onSearch={this.search} repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} key={this.state.repos._id}/>
     </div>)
   }
 }
