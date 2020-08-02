@@ -19,6 +19,7 @@ app.post('/repos', (req, res) => {
     // console.log("res from github??", repoInfo)
     for (var repo of repoInfo) {
       var currentRepo = {
+        username: req.body.name,
         full_name: repo.full_name,
         avatar_url: repo.owner.avatar_url,
         watchers: repo.watchers,
