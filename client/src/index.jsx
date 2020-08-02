@@ -12,32 +12,52 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-    // console.log("whats apps this binding to?", this)
     this.search = this.search.bind(this);
   }
-  componenDidMount() {
-    // make get request.
+
+  componentDidMount() {
     axios.get('/repos')
     .then((res) => {
-      console.log("client: success getting repos!", res.full_name);
-      // ststate likely has error... fix later
-      this.setState({repos: [...this.state.repos, res.full_name]});
-    }).catch((err) => {
-      console.log("client: failed to get repos", err)
+      // console.log("client: receving all repo:", res.data);
+      var sortedData = res.data.sort(function (a, b) {
+        return b.watchers - a.watchers;
+      });
+      var topTen = sortedData.length - sortedData.length + 10;
+      console.log('sorteddata:', sortedData)
+      for (var i = 0; i < sortedData.length - sortedData.length + 10; i++) {
+        this.setState({repos: [...this.state.repos, sortedData[i]]});
+      }
     })
-    // setstate to have all repos from db/ resposne fo teh get request
+    .catch((err) =>console.log("client: failed to get repos", err));
   }
 
+  // componentDidMount() {
+  //   axios.get('/repos')
+  //   .then((res) => {
+  //     // console.log("client: receving all repo:", res.data);
+  //     var sortedData = res.data.sort(function (a, b) {
+  //       return b.watchers - a.watchers;
+  //     });
+  //     var topTen = sortedData.length - sortedData.length + 10;
+  //     for (var i = 0; i < sortedData.length - sortedData.length + 10; i++) {
+  //       // console.log('sorteddata:', sortedData[i].full_name)
+  //       this.setState({repos: [...this.state.repos, sortedData[i].full_name]});
+  //     }
+  //     // console.log("whats state of repos?", this.state.repos)
+  //   })
+  //   .catch((err) =>console.log("client: failed to get repos", err));
+  //   // setstate to have all repos from db/ resposne fo teh get request
+  // }
+
   search (term) {
-    // console.log(`${term} was searched`);
     axios.post('/repos', {name:term})
     .then((res) => console.log("client: got a response from server!", res.data))
     .catch(() => console.log("failed to make post T T"));
   }
   render () {
     return (<div>
-      <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <h2 style={{fontFamily:'Arial'}}>Github Fetcher</h2>
+      <RepoList repos={this.state.repos} key={this.state.repos._id}/>
       <Search onSearch={this.search} repos={this.state.repos}/>
     </div>)
   }

@@ -22,7 +22,8 @@ app.post('/repos', (req, res) => {
         full_name: repo.full_name,
         avatar_url: repo.owner.avatar_url,
         watchers: repo.watchers,
-        forks_count: repo.forks_count
+        forks_count: repo.forks_count,
+        repos_url:repo.owner.repos_url
       }
       db.save(err, currentRepo);
     }
@@ -32,13 +33,17 @@ app.post('/repos', (req, res) => {
 
 app.get('/repos', (req, res) => {
   // This route should send back top 10 repos by "watchers" criteria
-  if (err) {
-    console.log(err, "server: failed response to clients get req")
-    res.status(500).send();
-  }
-  var allRepos = db.find(err, req.body)
+  // get all of the repos objects
+  var allRepos = db.find((err, repos) => {
+    if (err) {
+      console.log(err, "server: failed fetching all repos");
+      res.status(500).send();
+    } else {
+      console.log("got all repos from db: ", repos)
+      res.status(200).send(repos)
+    }
+  });
   // sor allRepos by watchers descending.. .sort(repos.watchers)
-  res.status(200).send()
 
 });
 
@@ -46,5 +51,3 @@ let port = 1128;
 app.listen(port, () => {
   // console.log(`listening on port ${port}`);
 });
-
-// https://api.github.com
